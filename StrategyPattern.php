@@ -1,5 +1,5 @@
 <?php
-// Strategy Pattern - Ported from Head First Design Patterns Java version
+// Ported from Head First Design Patters Examples: http://www.headfirstlabs.com/books/hfdp/
 // Favoring composition over inheritance
 
 // Strategy - defines a family of algorithms, encapsulates each one, and makes

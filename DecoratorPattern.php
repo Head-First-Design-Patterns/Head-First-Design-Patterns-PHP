@@ -1,5 +1,5 @@
 <?php
-/*
+/* Ported from Head First Design Patters Examples: http://www.headfirstlabs.com/books/hfdp/
  * Decorator Pattern - Attach additional responsibilities to an object dynamically.
  * Decorators provide a flexible alternative to subclassing for extending functionality.
  */
