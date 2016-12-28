@@ -7,6 +7,7 @@ These patterns are ported from the Java examples in the O'Reilly book ["Head Fir
 * [Observer Pattern](ObserverPattern.php) - Defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically
 * [Decorator Pattern](DecoratorPattern.php) - Attach additional responsibilities to an object dynamically. Decorators provide a flexible alternative to subclassing for extending functionality.
 * [Factory Method](FactoryMethod.php) - Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to the subclasses.
+* [Abstract Factory](FactoryPatternAbstract.php) - Provide an interface for creating families of related or dependent objects without specifying their concrete classes.
 
 ##OO Basics
 * Abstraction
