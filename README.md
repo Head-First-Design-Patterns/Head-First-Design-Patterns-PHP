@@ -8,7 +8,7 @@ These patterns are ported from the Java examples in the O'Reilly book ["Head Fir
 * [Decorator Pattern](DecoratorPattern.php) - Attach additional responsibilities to an object dynamically. Decorators provide a flexible alternative to subclassing for extending functionality.
 * [Factory Method](FactoryMethod.php) - Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to the subclasses.
 * [Abstract Factory](FactoryPatternAbstract.php) - Provide an interface for creating families of related or dependent objects without specifying their concrete classes.
-* [Singleton Pattern](Singleton Pattern) - Ensure a class only has one instance and provide a global point of access to it.
+* [Singleton Pattern](SingletonPattern.php) - Ensure a class only has one instance and provide a global point of access to it.
 
 ##OO Basics
 * Abstraction
