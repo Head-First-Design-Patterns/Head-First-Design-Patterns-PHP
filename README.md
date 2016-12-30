@@ -9,6 +9,7 @@ These patterns are ported from the Java examples in the O'Reilly book ["Head Fir
 * [Factory Method](FactoryMethod.php) - Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to the subclasses.
 * [Abstract Factory](FactoryPatternAbstract.php) - Provide an interface for creating families of related or dependent objects without specifying their concrete classes.
 * [Singleton Pattern](SingletonPattern.php) - Ensure a class only has one instance and provide a global point of access to it.
+* [Command Pattern] (CommandPatternSimple.php) - Encapsulates a request as an object, thereby letting you parameterize clients with different requests, queue or log requests, and support undoable operations.
 
 ##OO Basics
 * Abstraction

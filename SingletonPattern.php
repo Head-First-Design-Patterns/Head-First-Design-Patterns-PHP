@@ -1,6 +1,7 @@
 <?php
 /**
- * Singleton Factory -
+ * Ported from Head First Design Patters Examples: http://www.headfirstlabs.com/books/hfdp/
+ * Singleton Pattern - Ensure a class only has one instance and provide a global point to access it.
  * Also took some suggestions from: http://www.phptherightway.com/pages/Design-Patterns.html
  */
 
