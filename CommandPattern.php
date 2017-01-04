@@ -68,6 +68,42 @@ class GarageDoor{
     public function lightOff() { print $this->location . " Garage Door light is Off\n"; }
 }
 
+class TV {
+    private $location;
+    private $channel;
+    public function __construct($l) { $this->location = $l; }
+    public function on() { print $this->location . " TV is on\n"; }
+    public function off() { print $this->location . " TV is off\n"; }
+	public function setInputChannel() {
+        $this->channel = 3;
+		print $this->location . " TV channel is set for DVD\n";
+	}
+}
+
+class Hottub{
+    private $on;
+    private $temperature;
+    public function __construct() {}
+    public function on() { $this->on = true; }
+    public function off() { $this->on = false; }
+    public function circulate(){
+        if($this->on) print "Hottub is bubbling!\n";
+    }
+    public function jetsOn(){
+        if($this->on) print "Hottub jets are on\n";
+    }
+    public function jetsOff(){
+        if($this->on) print "Hottub jets are off\n";
+    }
+    public function setTemperature($t){
+        if($t > $this->temperature)
+            print "Hottub is heating to a steaming " . $t . " degrees\n";
+        else
+            print "Hottub is cooling to " . $t . "degrees\n";
+        $this->temperature = $t;
+    }
+}
+
 class LightOnCommand implements Command{
     private $light;
     public function __construct($l){ $this->light = $l; }
@@ -176,6 +212,57 @@ class CeilingFanHighCommand implements Command{
     }
 }
 
+class TVOnCommand implements Command{
+    private $tv;
+    public function __construct($t) { $this->tv = $t; }
+    public function execute()
+    {
+        $this->tv->on();
+        $this->tv->setInputChannel();
+    }
+    public function undo(){
+        $this->tv->off();
+    }
+}
+
+class TVOffCommand implements Command{
+    private $tv;
+    public function __construct($t) { $this->tv = $t; }
+    public function execute() { $this->tv->off(); }
+    public function undo() { $this->tv->on(); }
+}
+
+class HottubOnCommand implements Command{
+    private $hottub;
+    public function __construct($ht) { $this->hottub = $ht; }
+    public function execute() { $this->hottub->on(); }
+    public function undo() { $this->hottub->off(); }
+}
+
+class HottubOffCommand implements Command{
+    private $hottub;
+    public function __construct($ht) { $this->hottub = $ht; }
+    public function execute() { $this->hottub->off(); }
+    public function undo() { $this->hottub->on(); }
+}
+
+class MacroCommand implements Command{
+    private $commands;
+    public function __construct($c) { $this->commands = $c; }
+    public function execute()
+    {
+        foreach ($this->commands as $command){
+            $command->execute();
+        }
+    }
+    public function undo()
+    {
+        foreach ($this->commands as $command){
+            $command->undo();
+        }
+    }
+}
+
 class RemoteControl{
     private $onCommands;
     private $offCommands;
@@ -231,6 +318,8 @@ $kitchenLight = new Light("Kitchen");
 $ceilingFan = new CeilingFan("Living Room");
 $garageDoor = new GarageDoor("");
 $stereo = new Stereo("Living Room");
+$tv = new TV("Living ROom");
+$hottub = new Hottub();
 
 // Create all the light command objects
 $livingRoomLightOn = new LightOnCommand($livingRoomLight);
@@ -249,6 +338,14 @@ $garageDoorDown = new GarageDoorDownCommand($garageDoor);
 // Create the stereo On and Off commands
 $stereoOnWithCD = new StereoOnWithCDCommand($stereo);
 $stereoOff = new StereoOffCommand($stereo);
+
+// Create the TV On and Off commands
+$tvOnCommand = new TVOnCommand($tv);
+$tvOffCommend = new TVOffCommand($tv);
+
+// Create the Hottub On and Off commands
+$hottubOnCommand = new HottubOnCommand($hottub);
+$hottubOffCommand = new HottubOffCommand($hottub);
 
 // Now that we've got all our commands, we can load them into the remote slots
 $remote->setCommand(0, $livingRoomLightOn, $livingRoomLightOff);
@@ -283,7 +380,7 @@ $remote->undoButtonWasPushed();
 */
 
 // Ceiling fan undo test
-$ceilingFan = new CeilingFan("Living Room");
+/*
 $ceilingFanMedium = new CeilingFanMediumCommand($ceilingFan);
 $ceilingFanHigh = new CeilingFanHighCommand($ceilingFan);
 $ceilingFanOff = new CeilingFanOffCommand($ceilingFan);
@@ -299,3 +396,18 @@ $remote->undoButtonWasPushed(); // Undo! It should go back to medium
 $remote->onButtonWasPushed(1); // Turn it on to high this time
 print $remote . "\n";
 $remote->undoButtonWasPushed(); // And, one more undo; it should go back to medium
+*/
+
+// Macro test
+$partyOn = array($livingRoomLightOn, $stereoOnWithCD, $tvOnCommand, $hottubOnCommand);
+$partyOff = array($livingRoomLightOff, $stereoOff, $tvOffCommend, $hottubOffCommand);
+
+$partyOnMacro = new MacroCommand($partyOn);
+$partyOffMacro = new MacroCommand($partyOff);
+
+$remote->setCommand(0, $partyOnMacro, $partyOffMacro);
+print $remote . "\n";
+print "--- Pushing Macro On---\n";
+$remote->onButtonWasPushed(0);
+print "--- Pushing Macro Off---\n";
+$remote->offButtonWasPushed(0);
