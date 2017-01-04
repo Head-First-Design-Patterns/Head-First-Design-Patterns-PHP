@@ -10,6 +10,7 @@ These patterns are ported from the Java examples in the O'Reilly book ["Head Fir
 * [Abstract Factory](FactoryPatternAbstract.php) - Provide an interface for creating families of related or dependent objects without specifying their concrete classes.
 * [Singleton Pattern](SingletonPattern.php) - Ensure a class only has one instance and provide a global point of access to it.
 * [Command Pattern](CommandPattern.php) [(Simple version)](CommandPatternSimple.php) - Encapsulates a request as an object, thereby letting you parameterize clients with different requests, queue or log requests, and support undoable operations.
+* [Adapter Pattern](AdapterPattern.php) - Converts the interface of a class into another interface clients expect. Lets classes work together that couldn't otherwise because fo incompatible interfaces.
 
 ##OO Basics
 * Abstraction
@@ -24,3 +25,4 @@ These patterns are ported from the Java examples in the O'Reilly book ["Head Fir
 * Strive for loosely coupled designs between objects that interact
 * Classes should be open for extension but closed for modification.
 * Depend on abstractions. Do not depend on concrete classes.
+* Only talk to your friends.
