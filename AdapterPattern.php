@@ -36,14 +36,30 @@ class TurkeyAdapter implements Duck{
     }
 }
 
+class DuckAdapter implements Turkey{
+    private $duck;
+    public function __construct($d) { $this->duck = $d; }
+    public function gobble() { $this->duck->quack(); }
+    public function fly() {
+        if(rand(0, 4) == 0) $this->duck->fly();
+        else print "I'll fly next time\n";
+    }
+}
+
 function testDuck($duck){
     $duck->quack();
     $duck->fly();
 }
 
+function testTurkey($turkey){
+    $turkey->gobble();
+    $turkey->fly();
+}
+
 $duck = new MallardDuck();
 $turkey = new WildTurkey();
 $turkeyAdapter = new TurkeyAdapter($turkey);
+$duckAdapter = new DuckAdapter($duck);
 
 print "The Turkey says...";
 $turkey->gobble();
@@ -54,3 +70,6 @@ testDuck($duck);
 
 print "\nThe Turkey says...";
 testDuck($turkeyAdapter);
+
+print "\nThe Duck says...";
+testTurkey($duckAdapter);
