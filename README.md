@@ -11,7 +11,8 @@ These patterns are ported from the Java examples in the O'Reilly book ["Head Fir
 * [Singleton Pattern](SingletonPattern.php) - Ensure a class only has one instance and provide a global point of access to it.
 * [Command Pattern](CommandPattern.php) [(Simple version)](CommandPatternSimple.php) - Encapsulates a request as an object, thereby letting you parameterize clients with different requests, queue or log requests, and support undoable operations.
 * [Adapter Pattern](AdapterPattern.php) - Converts the interface of a class into another interface clients expect. Lets classes work together that couldn't otherwise because fo incompatible interfaces.
-* [Facade Pattern](FacadePattern.php) - Facade Pattern - Provides a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.
+* [Facade Pattern](FacadePattern.php) - Provides a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.
+* [Template Method Pattern](TemplateMethodPattern.php) - Defines the skeleton of an algorithm in a method, deferring some steps to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm's structure.
 
 ##OO Basics
 * Abstraction
