@@ -28,3 +28,4 @@ These patterns are ported from the Java examples in the O'Reilly book ["Head Fir
 * Classes should be open for extension but closed for modification.
 * Depend on abstractions. Do not depend on concrete classes.
 * Only talk to your friends.
+* Don't call us, we'll call you.

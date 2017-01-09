@@ -19,9 +19,33 @@ abstract class CaffeineBeverage{
     function pourInCup() { print "Pouring into cup\n"; }
 }
 
+abstract class CaffeineBeverageWithHook{
+    final function prepareRecipe(){
+        $this->boilWater();
+        $this->brew();
+        $this->pourInCup();
+        if($this->customerWantsCondiments()) $this->addCondiments();
+    }
+    abstract function brew();
+    abstract function addCondiments();
+    function boilWater(){ print "Boiling water\n"; }
+    function pourInCup() { print "Pouring into cup\n"; }
+    function customerWantsCondiments() { return true; }
+}
+
 class Tea extends CaffeineBeverage{
     public function brew(){ print "Steeping the tea\n"; }
     public function addCondiments(){ print "Adding Lemon\n"; }
+}
+
+class TeaWithHook extends CaffeineBeverageWithHook{
+    public function brew(){ print "Steeping the tea\n"; }
+    public function addCondiments(){ print "Adding Lemon\n"; }
+    public function customerWantsCondiments(){
+        $answer = readline("Would you like lemon with your tea (y/n)?");
+        if(strtolower($answer)[0] === "y") return true;
+        else return false;
+    }
 }
 
 class Coffee extends CaffeineBeverage{
@@ -29,5 +53,28 @@ class Coffee extends CaffeineBeverage{
     public function addCondiments() { "Adding Sugar and Milk\n"; }
 }
 
-$myTea = new Tea();
-$myTea->prepareRecipe();
+class CoffeeWithHook extends CaffeineBeverageWithHook{
+    public function brew() { print "Dripping Coffee through filter\n"; }
+    public function addCondiments() { print "Adding Sugar and Milk\n"; }
+    public function customerWantsCondiments(){
+        $answer = readline("Would you like milk and sugar with your coffee (y/n)?");
+        if(strtolower($answer)[0] === "y") return true;
+        else return false;
+    }
+}
+
+
+$tea = new Tea();
+$teaHook = new TeaWithHook();
+$coffee = new Coffee();
+$coffeeHook = new CoffeeWithHook();
+
+print "\nMaking tea...\n";
+$tea->prepareRecipe();
+print "\nMaking coffee...\n";
+$coffee->prepareRecipe();
+
+print "\nMaking tea...\n";
+$teaHook->prepareRecipe();
+print "\nMaking coffee...\n";
+$coffeeHook->prepareRecipe();
