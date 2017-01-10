@@ -13,6 +13,7 @@ These patterns are ported from the Java examples in the O'Reilly book ["Head Fir
 * [Adapter Pattern](AdapterPattern.php) - Converts the interface of a class into another interface clients expect. Lets classes work together that couldn't otherwise because fo incompatible interfaces.
 * [Facade Pattern](FacadePattern.php) - Provides a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.
 * [Template Method Pattern](TemplateMethodPattern.php) - Defines the skeleton of an algorithm in a method, deferring some steps to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm's structure.
+* [Iterator Pattern](IteratorPattern.php) - Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation.
 
 ##OO Basics
 * Abstraction
@@ -29,3 +30,4 @@ These patterns are ported from the Java examples in the O'Reilly book ["Head Fir
 * Depend on abstractions. Do not depend on concrete classes.
 * Only talk to your friends.
 * Don't call us, we'll call you.
+* A class should have only one reason to change.
