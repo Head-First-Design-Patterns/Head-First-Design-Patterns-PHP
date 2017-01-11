@@ -1,8 +1,13 @@
 <?php
 /**
  * Ported from Head First Design Patters Examples: http://www.headfirstlabs.com/books/hfdp/
- * Iterator Pattern - 
+ * Iterator Pattern - Provide a way to access the elements of an aggregate
+ * object sequentially without exposing its underlying representation.
  */
+interface MyIterator{
+    function hasNext();
+    function next();
+}
 
 class MenuItem{
     private $name;
@@ -22,6 +27,30 @@ class MenuItem{
     public function getPrice() { return $this->price; }
 }
 
+class PancakeHouseMenuIterator implements MyIterator{
+    private $items;
+    private $position = 0;
+    
+    public function __construct($items){
+        $this->items = $items;
+    }
+    
+    public function next(){
+        $menuItem = $this->items[$this->position];
+        $this->position++;
+        return $menuItem;
+    }
+    
+    public function hasNext(){
+        if($this->position >= sizeof($this->items) || $this->items[$this->position] === null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+}
+
 class PancakeHouseMenu{
     private $menuItems;
     
@@ -36,12 +65,36 @@ class PancakeHouseMenu{
         $menuItem = new MenuItem($name, $description, $vegetarian, $price);
         $this->menuItems[] = $menuItem;
     }
-    public function getMenuItems() { return $this->menuItems; }
+    public function createIterator() { return new PancakeHouseMenuIterator($this->menuItems); }
     
     // bunch of other code we don't want to change
 }
 
-class DinnerMenu{
+class DinerMenuIterator implements MyIterator{
+    private $items;
+    private $position = 0;
+    
+    public function __construct($items){
+        $this->items = $items;
+    }
+    
+    public function next(){
+        $menuItem = $this->items[$this->position];
+        $this->position++;
+        return $menuItem;
+    }
+    
+    public function hasNext(){
+        if($this->position >= $this->items->count() || $this->items[$this->position] === null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+}
+
+class DinerMenu{
     const MAX_ITEMS = 6;
     private $numberOfItems = 0;
     private $menuItems;
@@ -65,29 +118,42 @@ class DinnerMenu{
             $this->numberOfItems++;
         }
     }
-    public function getMenuItems() { return $this->menuItems; }
+    
+    public function createIterator() { return new DinerMenuIterator($this->menuItems); }
     
     // bunch of other code we don't want to change
 }
 
+class Waitress{
+    private $pancakeHouseMenu;
+    private $dinerMenu;
+    
+    public function __construct($pancakeHouseMenu, $dinerMenu){
+        $this->pancakeHouseMenu = $pancakeHouseMenu;
+        $this->dinerMenu = $dinerMenu;
+    }
+    
+    public function printMenu(){
+        $pancakeIterator = $this->pancakeHouseMenu->createIterator();
+        $dinerIterator = $this->dinerMenu->createIterator();
+        print "MENU\n----\nBREAKFAST\n";
+        $this->printMenuHelper($pancakeIterator);
+        print "\nLUNCH\n";
+        $this->printMenuHelper($dinerIterator);
+    }
+    
+    private function printMenuHelper($iterator){
+        while($iterator->hasNext()){
+            $menuItem = $iterator->next();
+            print $menuItem->getName() . ", " . $menuItem->getPrice() . " --";
+            print $menuItem->getDescription() . "\n";
+        }
+    }
+}
+
 
 $pancakeHouseMenu = new PancakeHouseMenu();
-$breakfastItems = $pancakeHouseMenu->getMenuItems();
+$dinerMenu = new DinerMenu();
 
-$dinerMenu = new DinnerMenu();
-$lunchItems = $dinerMenu->getMenuItems();
-
-for($i = 0; $i < sizeof($breakfastItems); $i++){
-    $menuItem = $breakfastItems[$i];
-    print $menuItem->getName() . " ";
-    print $menuItem->getPrice() . "\n";
-    print $menuItem->getDescription() . "\n\n";
-}
-
-// I realize these loops are the same.
-for($i = 0; $i < $lunchItems->count(); $i++){
-    $menuItem = $lunchItems[$i];
-    print $menuItem->getName() . " ";
-    print $menuItem->getPrice() . "\n";
-    print $menuItem->getDescription() . "\n\n";
-}
+$waitress = new Waitress($pancakeHouseMenu, $dinerMenu);
+$waitress->printMenu();
