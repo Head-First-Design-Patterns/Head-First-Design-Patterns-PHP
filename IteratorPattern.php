@@ -5,7 +5,8 @@
  * object sequentially without exposing its underlying representation.
  */
 interface MyIterator{
-    function hasNext();
+    function valid();
+    function current();
     function next();
 }
 
@@ -35,13 +36,9 @@ class PancakeHouseMenuIterator implements MyIterator{
         $this->items = $items;
     }
     
-    public function next(){
-        $menuItem = $this->items[$this->position];
-        $this->position++;
-        return $menuItem;
-    }
-    
-    public function hasNext(){
+    public function current(){ return $this->items[$this->position]; }
+    public function next() { $this->position++; }
+    public function valid(){
         if($this->position >= sizeof($this->items) || $this->items[$this->position] === null){
             return false;
         }
@@ -52,10 +49,9 @@ class PancakeHouseMenuIterator implements MyIterator{
 }
 
 class PancakeHouseMenu{
-    private $menuItems;
+    private $menuItems = array();
     
     public function __construct(){
-        $this->menuItems = array();
         $this->addItem("K&B's Pancake Breakfast", "Pancakes with scrambled eggs, and toast", true, 2.99);
         $this->addItem("Regular Pancake Breakfast", "Pancakes with fried eggs, sausage", true, 2.99);
         $this->addItem("Blueberry Pancakes", "Pancakes made with fresh blueberries", true, 3.49);
@@ -70,21 +66,16 @@ class PancakeHouseMenu{
     // bunch of other code we don't want to change
 }
 
-class DinerMenuIterator implements MyIterator{
+class DinerMenuIterator implements Iterator{
     private $items;
     private $position = 0;
     
-    public function __construct($items){
-        $this->items = $items;
-    }
-    
-    public function next(){
-        $menuItem = $this->items[$this->position];
-        $this->position++;
-        return $menuItem;
-    }
-    
-    public function hasNext(){
+    public function __construct($items){ $this->items = $items; }
+    public function key() { return $this->position; }
+    public function current(){ return $this->items[$this->position]; }
+    public function next() { $this->position++; }
+    public function rewind() { $this->position = 0; }
+    public function valid(){
         if($this->position >= $this->items->count() || $this->items[$this->position] === null){
             return false;
         }
@@ -143,10 +134,11 @@ class Waitress{
     }
     
     private function printMenuHelper($iterator){
-        while($iterator->hasNext()){
-            $menuItem = $iterator->next();
+        while($iterator->valid()){
+            $menuItem = $iterator->current();
             print $menuItem->getName() . ", " . $menuItem->getPrice() . " --";
             print $menuItem->getDescription() . "\n";
+            $iterator->next();
         }
     }
 }
