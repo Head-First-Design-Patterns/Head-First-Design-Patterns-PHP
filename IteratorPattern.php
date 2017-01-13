@@ -10,6 +10,10 @@ interface MyIterator{
     function next();
 }
 
+interface Menu{
+    function createIterator();
+}
+
 class MenuItem{
     private $name;
     private $description;
@@ -28,7 +32,7 @@ class MenuItem{
     public function getPrice() { return $this->price; }
 }
 
-class PancakeHouseMenu{
+class PancakeHouseMenu implements Menu{
     private $menuItems = array();
     
     public function __construct(){
@@ -63,9 +67,20 @@ class DinerMenuIterator implements Iterator{
             return true;
         }
     }
+    public function remove(){
+        if($this->position === 0){
+            throw new Exception("You can't remove an item until you've done at least one next()");
+        }
+        if($this->items[$this->position] != null){
+            for($i = $this->position - 1; $i < $this->items->count(); $i++){
+                $this->items[$i] = $this->items[$i + 1];
+            }
+            $this->items[$this->items->count() - 1] = null;
+        }
+    }
 }
 
-class DinerMenu{
+class DinerMenu implements Menu{
     const MAX_ITEMS = 6;
     private $numberOfItems = 0;
     private $menuItems;
@@ -95,22 +110,42 @@ class DinerMenu{
     // bunch of other code we don't want to change
 }
 
+class CafeMenu implements Menu{
+    private $menuItems = array();
+    
+    public function __construct(){
+        $this->addItem("Veggie Burger and Air Fries", "Veggie burger on a whole wheat bun, lettuce, tomato, and fries", true, 3.99);
+        $this->addItem("Soup of the day", "A cup of the soup of the day, with a side salad", false, 3.69);
+        $this->addItem("Burrito", "A large burrito, with whole pinto beans, salsa, guacamole", true, 4.29);
+    }
+    public function addItem($name, $description, $vegetarian, $price){
+        $menuItem = new MenuItem($name, $description, $vegetarian, $price);
+        $this->menuItems[$menuItem->getName()] = $menuItem;
+    }
+    public function createIterator() { $ao = new ArrayObject($this->menuItems); return $ao->getIterator(); }
+}
+
 class Waitress{
     private $pancakeHouseMenu;
     private $dinerMenu;
+    private $cafeMenu;
     
-    public function __construct($pancakeHouseMenu, $dinerMenu){
+    public function __construct($pancakeHouseMenu, $dinerMenu, $cafeMenu){
         $this->pancakeHouseMenu = $pancakeHouseMenu;
         $this->dinerMenu = $dinerMenu;
+        $this->cafeMenu = $cafeMenu;
     }
     
     public function printMenu(){
         $pancakeIterator = $this->pancakeHouseMenu->createIterator();
         $dinerIterator = $this->dinerMenu->createIterator();
+        $cafeMenuIterator = $this->cafeMenu->createIterator();
         print "MENU\n----\nBREAKFAST\n";
         $this->printMenuHelper($pancakeIterator);
         print "\nLUNCH\n";
         $this->printMenuHelper($dinerIterator);
+        print "\nDINNER\n";
+        $this->printMenuHelper($cafeMenuIterator);
     }
     
     private function printMenuHelper($iterator){
@@ -126,6 +161,7 @@ class Waitress{
 
 $pancakeHouseMenu = new PancakeHouseMenu();
 $dinerMenu = new DinerMenu();
+$cafeMenu = new CafeMenu();
 
-$waitress = new Waitress($pancakeHouseMenu, $dinerMenu);
+$waitress = new Waitress($pancakeHouseMenu, $dinerMenu, $cafeMenu);
 $waitress->printMenu();
