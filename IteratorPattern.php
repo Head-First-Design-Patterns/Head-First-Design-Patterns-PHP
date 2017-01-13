@@ -126,26 +126,14 @@ class CafeMenu implements Menu{
 }
 
 class Waitress{
-    private $pancakeHouseMenu;
-    private $dinerMenu;
-    private $cafeMenu;
+    private $menus;
     
-    public function __construct($pancakeHouseMenu, $dinerMenu, $cafeMenu){
-        $this->pancakeHouseMenu = $pancakeHouseMenu;
-        $this->dinerMenu = $dinerMenu;
-        $this->cafeMenu = $cafeMenu;
-    }
-    
+    public function __construct($menus){ $this->menus = $menus; }
     public function printMenu(){
-        $pancakeIterator = $this->pancakeHouseMenu->createIterator();
-        $dinerIterator = $this->dinerMenu->createIterator();
-        $cafeMenuIterator = $this->cafeMenu->createIterator();
-        print "MENU\n----\nBREAKFAST\n";
-        $this->printMenuHelper($pancakeIterator);
-        print "\nLUNCH\n";
-        $this->printMenuHelper($dinerIterator);
-        print "\nDINNER\n";
-        $this->printMenuHelper($cafeMenuIterator);
+        foreach($this->menus as $menu){
+            print "---\n";
+            $this->printMenuHelper($menu->createIterator());
+        }
     }
     
     private function printMenuHelper($iterator){
@@ -163,5 +151,5 @@ $pancakeHouseMenu = new PancakeHouseMenu();
 $dinerMenu = new DinerMenu();
 $cafeMenu = new CafeMenu();
 
-$waitress = new Waitress($pancakeHouseMenu, $dinerMenu, $cafeMenu);
+$waitress = new Waitress(array($pancakeHouseMenu, $dinerMenu, $cafeMenu));
 $waitress->printMenu();
