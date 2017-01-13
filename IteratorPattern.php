@@ -28,26 +28,6 @@ class MenuItem{
     public function getPrice() { return $this->price; }
 }
 
-class PancakeHouseMenuIterator implements MyIterator{
-    private $items;
-    private $position = 0;
-    
-    public function __construct($items){
-        $this->items = $items;
-    }
-    
-    public function current(){ return $this->items[$this->position]; }
-    public function next() { $this->position++; }
-    public function valid(){
-        if($this->position >= sizeof($this->items) || $this->items[$this->position] === null){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
-}
-
 class PancakeHouseMenu{
     private $menuItems = array();
     
@@ -61,7 +41,7 @@ class PancakeHouseMenu{
         $menuItem = new MenuItem($name, $description, $vegetarian, $price);
         $this->menuItems[] = $menuItem;
     }
-    public function createIterator() { return new PancakeHouseMenuIterator($this->menuItems); }
+    public function createIterator() { $ao = new ArrayObject($this->menuItems); return $ao->getIterator(); }
     
     // bunch of other code we don't want to change
 }
