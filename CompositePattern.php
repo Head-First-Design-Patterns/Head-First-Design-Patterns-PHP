@@ -1,8 +1,9 @@
 <?php
 /**
  * Ported from Head First Design Patters Examples: http://www.headfirstlabs.com/books/hfdp/
- * Iterator Pattern - Provide a way to access the elements of an aggregate
- * object sequentially without exposing its underlying representation.
+ * Composite Pattern - Compose objects into tree structures to represent
+ * part-whole hierarchies. Composite lets clients treat individual objects and
+ * compositions of objects uniformly.
  */
 
 abstract class MenuComponent{
