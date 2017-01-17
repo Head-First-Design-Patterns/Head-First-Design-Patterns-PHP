@@ -14,6 +14,7 @@ These patterns are ported from the Java examples in the O'Reilly book ["Head Fir
 * [Facade Pattern](FacadePattern.php) - Provides a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.
 * [Template Method Pattern](TemplateMethodPattern.php) - Defines the skeleton of an algorithm in a method, deferring some steps to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm's structure.
 * [Iterator Pattern](IteratorPattern.php) - Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation.
+* [Composite Pattern](CompositePattern.php) - Compose objects into tree structures to represent part-whole hierarchies. Composite lets clients treat individual objects and compositions of objects uniformly.
 
 ##OO Basics
 * Abstraction
