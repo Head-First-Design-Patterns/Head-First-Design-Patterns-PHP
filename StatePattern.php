@@ -22,6 +22,7 @@ class NoQuarterState implements State{
     public function ejectQuarter(){ print "You haven't inserted a quarter\n"; }
     public function turnCrank() { print "You turned, but there's no quarter\n"; }
     public function dispense() { print "You need to pay first\n"; }
+    public function __toString() { return "waiting for quarter"; }
 }
 
 class HasQuarterState implements State{
@@ -34,9 +35,16 @@ class HasQuarterState implements State{
     }
     public function turnCrank() {
         print "You turned...\n";
-        $this->setState($this->gumballMachine->getSoldState());
+        $winner = rand(0, 9);
+        if($winner === 0 && ($this->gumballMachine->getCount() > 1)){
+            $this->gumballMachine->setState($this->gumballMachine->getWinnerState());
+        }
+        else{
+            $this->setState($this->gumballMachine->getSoldState());
+        }
     }
     public function dispense() { print "No gumball dispensed\n"; }
+    public function __toString() { return "waiting for turn of crank"; }
 }
 
 class SoldState implements State{
@@ -55,6 +63,7 @@ class SoldState implements State{
             $this->gumballMachine->setState($this->gumballMachine->getSoldOutState());
         }
     }
+    public function __toString() { return "dispensing a gumball"; }
 }
 
 class SoldOutState implements State{
@@ -64,6 +73,33 @@ class SoldOutState implements State{
     public function ejectQuarter(){ print "You can't eject, you haven't inserted a quarter yet\n"; }
     public function turnCrank() { print "You turned, but there are no gumballs\n"; }
     public function dispense() { print "No gumball dispensed\n"; }
+    public function __toString() { return "sold out"; }
+}
+
+class WinnerState implements State{
+    private $gumballMachine;
+    public function __construct($gumballMachine) { $this->gumballMachine = $gumballMachine; }
+    public function insertQuarter(){ print "Please wait, we're already giving you a gumball\n"; }
+    public function ejectQuarter(){ print "Sorry, you alread turned the crank\n"; }
+    public function turnCrank() { print "Turning twice doesn't get you another gumball!\n"; }
+    public function dispense() {
+        print "YOU'RE A WINNER! You get two gumballs for your quarter\n";
+        $this->gumballMachine->releaseBall();
+        if($this->gumballMachine->getCount() == 0){
+            $this->gumballMachine->setState($this->gumballMachine->getSoldOutState());
+        }
+        else{
+            $this->gumballMachine->releaseBall();
+            if($this->gumballMachine->getCount() > 0){
+                $this->gumballMachine->setState($this->gumballMachine->getNoQuarterState());
+            }
+            else{
+                print "Oops, out of gumballs!\n";
+                $this->gumballMachine->setState($this->gumballMachine->getSoldOutState());
+            }
+        }
+    }
+    public function __toString() { return "despensing two gumballs for your quarter, because YOU'RE A WINNER!"; }
 }
 
 class GumballMachine{
@@ -71,6 +107,7 @@ class GumballMachine{
     private $noQuarterState;
     private $hasQuarterState;
     private $soldState;
+    private $winnerState;
     
     private $state;
     private $count = 0;
@@ -99,6 +136,7 @@ class GumballMachine{
     public function getNoQuarterState() { return $this->noQuarterState; }
     public function getHasQuarterState() { return $this->hasQuarterState; }
     public function getSoldState() { return $this->soldState; }
+    public function getWinnerState() { return $this->winnerState; }
     public function __toString(){
         $result  = "\nMighty Gumball, Inc.";
         $result .= "\nJava-enables Standing Gumball Model #2004";
@@ -109,3 +147,20 @@ class GumballMachine{
         return $result;
     }
 }
+
+
+$gumballMachine = new GumballMachine(5);
+
+print $gumballMachine;
+
+$gumballMachine->insertQuarter();
+$gumballMachine->turnCrank();
+
+print $gumballMachine;
+
+$gumballMachine->insertQuarter();
+$gumballMachine->turnCrank();
+$gumballMachine->insertQuarter();
+$gumballMachine->turnCrank();
+
+print $gumballMachine;
