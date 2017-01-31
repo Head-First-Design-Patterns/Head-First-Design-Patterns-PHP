@@ -1,8 +1,7 @@
 <?php
 /**
  * Ported from Head First Design Patters Examples: http://www.headfirstlabs.com/books/hfdp/
- * State Pattern - Allows an object to alter its behavior when its internal
- * state changes. The object will appear to change its class.
+ * Proxy Pattern - Provides a surrogate or placeholder for another object to control access to it.
  */
 
 interface State{
@@ -163,12 +162,6 @@ class GumballMonitor {
 }
 
 
-/*
-var_dump($argv);
-print count($argv) . "\n";
-print $argv[0] . "\n";
-*/
-
 if(count($argv) < 3){
     print "GumballMachine <name> <inventory>\n";
     exit();
@@ -179,21 +172,3 @@ $count = intval($argv[2]);
 $gumballMachine = new GumballMachine($location, $count);
 $monitor = new GumballMonitor($gumballMachine);
 $monitor->report();
-
-/*
-$gumballMachine = new GumballMachine(5);
-
-print $gumballMachine;
-
-$gumballMachine->insertQuarter();
-$gumballMachine->turnCrank();
-
-print $gumballMachine;
-
-$gumballMachine->insertQuarter();
-$gumballMachine->turnCrank();
-$gumballMachine->insertQuarter();
-$gumballMachine->turnCrank();
-
-print $gumballMachine;
-*/
