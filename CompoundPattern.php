@@ -42,18 +42,50 @@ class QuackCounter implements Quackable{
     public static function numberOfQuacks() { return self::$numberOfQuacks; }
 }
 
-function simulate($duck) { $duck->quack(); } 
+abstract class AbstractDuckFactory{
+    abstract function createMallardDuck();
+    abstract function createRedheadDuck();
+    abstract function createDuckCall();
+    abstract function createRubberDuck();
+}
 
-$mallardDuck = new QuackCounter(new MallardDuck());
-$redheadDuck = new QuackCounter(new RedheadDuck());
-$duckCall = new QuackCounter(new DuckCall());
-$rubberDuck = new QuackCounter(new RubberDuck());
-$gooseDuck = new GooseAdapter(new Goose()); # The park ranger says don't count geese
+class DuckFactory extends AbstractDuckFactory{
+    public function createMallardDuck() { return new MallardDuck(); }
+    public function createRedheadDuck() { return new RedheadDuck(); }
+    public function createDuckCall() { return new DuckCall(); }
+    public function createRubberDuck() { return new RubberDuck(); }
+}
 
-simulate($mallardDuck);
-simulate($redheadDuck);
-simulate($duckCall);
-simulate($rubberDuck);
-simulate($gooseDuck);
+class CountingDuckFactory extends AbstractDuckFactory{
+    public function createMallardDuck() { return new QuackCounter(new MallardDuck()); }
+    public function createRedheadDuck() { return new QuackCounter(new RedheadDuck()); }
+    public function createDuckCall() { return new QuackCounter(new DuckCall()); }
+    public function createRubberDuck() { return new QuackCounter(new RubberDuck()); }
+}
 
-print "The ducks quacked " . QuackCounter::numberOfQuacks() . " times\n";
+class DuckSimulator{
+    public function __construct(){
+        $duckFactory = new CountingDuckFactory();
+        $this->simulate($duckFactory);
+    }
+    private function simulate($duckFactory){
+        $mallardDuck = $duckFactory->createMallardDuck();
+        $redheadDuck = $duckFactory->createRedheadDuck();
+        $duckCall = $duckFactory->createDuckCall();
+        $rubberDuck = $duckFactory->createRubberDuck();
+        $gooseDuck = new GooseAdapter(new Goose()); # The park ranger says don't count geese
+        
+        print "\nDuckSimulator: With AbstractFactory\n";
+        
+        $this->simulateQuack($mallardDuck);
+        $this->simulateQuack($redheadDuck);
+        $this->simulateQuack($duckCall);
+        $this->simulateQuack($rubberDuck);
+        $this->simulateQuack($gooseDuck);
+        
+        print "The ducks quacked " . QuackCounter::numberOfQuacks() . " times\n";
+    }
+    private function simulateQuack($duck) { $duck->quack(); } 
+}
+
+$simulator = new DuckSimulator();
