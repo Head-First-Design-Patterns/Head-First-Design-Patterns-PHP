@@ -34,16 +34,26 @@ class GooseAdapter implements Quackable{
     public function quack(){ $this->goose->honk(); }
 }
 
+class QuackCounter implements Quackable{
+    private $duck;
+    static $numberOfQuacks = 0;
+    public function __construct($duck){ $this->duck = $duck; }
+    public function quack() { $this->duck->quack(); self::$numberOfQuacks++; }
+    public static function numberOfQuacks() { return self::$numberOfQuacks; }
+}
+
 function simulate($duck) { $duck->quack(); } 
 
-$mallardDuck = new MallardDuck();
-$redheadDuck = new RedheadDuck();
-$duckCall = new DuckCall();
-$rubberDuck = new RubberDuck();
-$gooseDuck = new GooseAdapter(new Goose());
+$mallardDuck = new QuackCounter(new MallardDuck());
+$redheadDuck = new QuackCounter(new RedheadDuck());
+$duckCall = new QuackCounter(new DuckCall());
+$rubberDuck = new QuackCounter(new RubberDuck());
+$gooseDuck = new GooseAdapter(new Goose()); # The park ranger says don't count geese
 
 simulate($mallardDuck);
 simulate($redheadDuck);
 simulate($duckCall);
 simulate($rubberDuck);
 simulate($gooseDuck);
+
+print "The ducks quacked " . QuackCounter::numberOfQuacks() . " times\n";
