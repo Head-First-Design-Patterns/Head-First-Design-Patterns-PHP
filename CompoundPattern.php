@@ -63,6 +63,20 @@ class CountingDuckFactory extends AbstractDuckFactory{
     public function createRubberDuck() { return new QuackCounter(new RubberDuck()); }
 }
 
+class Flock implements Quackable{
+    private $quackers;
+    public function __construct() { $this->quackers = array(); }
+    public function add($quacker) { $this->quackers[] = $quacker; }
+    public function quack(){
+        $ao = new ArrayObject($this->quackers);
+        $iterator = $ao->getIterator();
+        while($iterator->valid()) {
+            print $iterator->key() . ' => ' . $iterator->current()->quack();
+            $iterator->next();
+        }
+    }
+}
+
 class DuckSimulator{
     public function __construct(){
         $duckFactory = new CountingDuckFactory();
@@ -74,14 +88,29 @@ class DuckSimulator{
         $duckCall = $duckFactory->createDuckCall();
         $rubberDuck = $duckFactory->createRubberDuck();
         $gooseDuck = new GooseAdapter(new Goose()); # The park ranger says don't count geese
+        print "\nDuckSimulator: With Composite - Flocks\n";
         
-        print "\nDuckSimulator: With AbstractFactory\n";
+        $flockOfDucks = new Flock();
         
-        $this->simulateQuack($mallardDuck);
-        $this->simulateQuack($redheadDuck);
-        $this->simulateQuack($duckCall);
-        $this->simulateQuack($rubberDuck);
-        $this->simulateQuack($gooseDuck);
+        $flockOfDucks->add($mallardDuck);
+        $flockOfDucks->add($redheadDuck);
+        $flockOfDucks->add($duckCall);
+        $flockOfDucks->add($rubberDuck);
+        $flockOfDucks->add($gooseDuck);
+        
+        $flockOfMallards = new Flock();
+        $flockOfMallards->add($duckFactory->createMallardDuck());
+        $flockOfMallards->add($duckFactory->createMallardDuck());
+        $flockOfMallards->add($duckFactory->createMallardDuck());
+        $flockOfMallards->add($duckFactory->createMallardDuck());
+        
+        $flockOfDucks->add($flockOfMallards);
+        
+        print "\nDuck Simulator: Whole Flock Simulation\n";
+        $this->simulateQuack($flockOfDucks);
+        
+        print "\nDuck Simulator: Mallard Flock Simulation\n";
+        $this->simulateQuack($flockOfMallards);
         
         print "The ducks quacked " . QuackCounter::numberOfQuacks() . " times\n";
     }
