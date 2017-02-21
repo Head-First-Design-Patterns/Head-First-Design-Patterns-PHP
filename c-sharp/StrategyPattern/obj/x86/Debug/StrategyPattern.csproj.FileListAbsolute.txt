@@ -1,0 +1,4 @@
+C:\Dev\Head-First-Design-Patterns-CSharp\StrategyPattern\bin\Debug\StrategyPattern.exe
+C:\Dev\Head-First-Design-Patterns-CSharp\StrategyPattern\bin\Debug\StrategyPattern.pdb
+C:\Dev\Head-First-Design-Patterns-CSharp\StrategyPattern\obj\x86\Debug\StrategyPattern.exe
+C:\Dev\Head-First-Design-Patterns-CSharp\StrategyPattern\obj\x86\Debug\StrategyPattern.pdb

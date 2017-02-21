@@ -1,0 +1,6 @@
+C:\Dev\Head-First-Design-Patterns-CSharp\ObserverPattern\bin\Debug\ObserverPattern.exe
+C:\Dev\Head-First-Design-Patterns-CSharp\ObserverPattern\bin\Debug\ObserverPattern.pdb
+C:\Dev\Head-First-Design-Patterns-CSharp\ObserverPattern\obj\x86\Debug\ObserverPattern.exe
+C:\Dev\Head-First-Design-Patterns-CSharp\ObserverPattern\obj\x86\Debug\ObserverPattern.pdb
+C:\Dev\Head-First-Design-Patterns\c-sharp\ObserverPattern\obj\x86\Debug\ObserverPattern.exe
+C:\Dev\Head-First-Design-Patterns\c-sharp\ObserverPattern\obj\x86\Debug\ObserverPattern.pdb
