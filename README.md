@@ -1,15 +1,15 @@
-# Head First Design Patterns in PHP
+ # Head First Design Patterns in PHP
 ##Someone has already solved your problems
 
 These patterns are ported from the Java examples in the O'Reilly book ["Head First Design Patterns"](http://www.headfirstlabs.com/books/hfdp/).
 
-##OO Basics
+## OO Basics
 * Abstraction
 * Encapsulation
 * Polymorphism
 * Inheritance
 
-##OO Principles
+## OO Principles
 * Encapsulate what varies
 * Favor composition over inheritance
 * Program to interfaces, not implementations
