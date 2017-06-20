@@ -1,5 +1,5 @@
 # Head First Design Patterns in PHP
-##Someone has already solved your problems
+## Someone has already solved your problems
 
 These patterns are ported from the Java examples in the O'Reilly book ["Head First Design Patterns"](http://www.headfirstlabs.com/books/hfdp/).
 
