@@ -23,30 +23,30 @@ namespace StrategyPattern
         }
     }
 
-    public interface IQuakcBehavior
+    public interface IQuackBehavior
     {
-        void quack();
+        void Quack();
     }
 
-    public class Quack : IQuakcBehavior
+    public class QuackBehavior : IQuackBehavior
     {
-        public void quack()
+        public void Quack()
         {
             Console.WriteLine("Quack");
         }
     }
 
-    public class MuteQuack : IQuakcBehavior
+    public class MuteQuack : IQuackBehavior
     {
-        public void quack()
+        public void Quack()
         {
             Console.WriteLine("<< Silence >>");
         }
     }
 
-    public class Squeak : IQuakcBehavior
+    public class Squeak : IQuackBehavior
     {
-        public void quack()
+        public void Quack()
         {
             Console.WriteLine("Squeak");
         }
@@ -55,7 +55,7 @@ namespace StrategyPattern
     public abstract class Duck
     {
         protected IFlyBehavior FlyBehavior;
-        protected IQuakcBehavior QuackBehavior;
+        protected IQuackBehavior QuackBehavior;
 
         public abstract void Display();
 
@@ -66,10 +66,10 @@ namespace StrategyPattern
 
         public void PerformQuack()
         {
-            QuackBehavior.quack();
+            QuackBehavior.Quack();
         }
 
-        public void Swim()
+        public static void Swim()
         {
             Console.WriteLine("All ducks float, even decoys!");
         }
@@ -79,7 +79,7 @@ namespace StrategyPattern
             FlyBehavior = fb;
         }
 
-        public void SetQuackBehavior(IQuakcBehavior qb)
+        public void SetQuackBehavior(IQuackBehavior qb)
         {
             QuackBehavior = qb;
         }
@@ -89,7 +89,7 @@ namespace StrategyPattern
     {
         public MallardDuck()
         {
-            QuackBehavior = new Quack();
+            QuackBehavior = new QuackBehavior();
             FlyBehavior = new FlyWithWings();
         }
 
@@ -104,7 +104,7 @@ namespace StrategyPattern
         public ModelDuck()
         {
             FlyBehavior = new FlyNoWay();
-            QuackBehavior = new Quack();
+            QuackBehavior = new QuackBehavior();
         }
 
         public override void Display()
@@ -121,9 +121,9 @@ namespace StrategyPattern
         }
     }
 
-    class MiniDuckSimulator
+    internal static class MiniDuckSimulator
     {
-        static void Main()
+        private static void Main()
         {
             Duck mallard = new MallardDuck();
             mallard.PerformQuack();

@@ -1,28 +1,27 @@
 ﻿
 namespace ObserverPattern
 {
-    public interface Subject
+    public interface ISubject
     {
-        void registerObserver(Observer o);
-        void removeObserver(Observer o);
-        void notifyObservers();
+        void RegisterObserver(IObserver o);
+        void RemoveObserver(IObserver o);
+        void NotifyObservers();
     }
 
-    public interface Observer
+    public interface IObserver
     {
         void Update(float temp, float humidity, float pressure);
     }
 
-    public interface DisplayElement
+    public interface IDisplayElement
     {
-        void display();
+        void Display();
     }
 
-    class Simulator
+    internal static class Simulator
     {
-        static void Main()
+        private static void Main()
         {
-
         }
     }
 }

@@ -2,35 +2,36 @@
 
 namespace AdapterPattern
 {
-    interface IDuck
+    internal interface IDuck
     {
         void Quack();
         void Fly();
     }
 
-    interface ITurkey
+    internal interface ITurkey
     {
         void Gobble();
         void Fly();
     }
 
-    class MallardDuck : IDuck
+    internal class MallardDuck : IDuck
     {
         public void Quack() { Console.WriteLine("Quack"); }
         public void Fly() { Console.WriteLine("I'm flying"); }
     }
 
-    class WildTurkey : ITurkey
+    internal class WildTurkey : ITurkey
     {
         public void Gobble() { Console.WriteLine("Gobble gobble"); }
         public void Fly() { Console.WriteLine("I'm flying a short distance"); }
     }
 
-    class TurkeyAdapter : IDuck
+    internal class TurkeyAdapter : IDuck
     {
         private readonly ITurkey _turkey;
         public TurkeyAdapter(ITurkey t) { _turkey = t; }
         public void Quack() { _turkey.Gobble(); }
+
         public void Fly()
         {
             for (var i = 0; i < 5; i++)
@@ -40,7 +41,7 @@ namespace AdapterPattern
         }
     }
 
-    class DuckAdapter : ITurkey
+    internal class DuckAdapter : ITurkey
     {
         private readonly Random _rnd = new Random();
         private readonly IDuck _duck;
@@ -54,7 +55,7 @@ namespace AdapterPattern
         }
     }
 
-    class Program
+    internal static class Program
     {
         public static void TestDuck(IDuck d)
         {
@@ -67,7 +68,8 @@ namespace AdapterPattern
             t.Gobble();
             t.Fly();
         }
-        static void Main()
+
+        private static void Main()
         {
             var duck = new MallardDuck();
             var turkey = new WildTurkey();
